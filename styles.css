@@ -79,6 +79,11 @@ body::before {
     gap: 0.75rem;
 }
 
+.header-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
 /* Board Selector */
 .board-selector {
     background: var(--surface);
@@ -520,6 +525,16 @@ textarea.input {
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
+    }
+
+    .header-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .header-buttons .btn {
+        width: 100%;
+        justify-content: center;
     }
 
     .app-title {

@@ -28,6 +28,9 @@ class FlowBoard {
     }
 
     setupEventListeners() {
+        // Export button
+        document.getElementById('exportBtn').addEventListener('click', () => this.exportToCSV());
+        
         // Board creation
         document.getElementById('newBoardBtn').addEventListener('click', () => this.openModal('newBoardModal'));
         document.getElementById('emptyStateBtn').addEventListener('click', () => this.openModal('newBoardModal'));
@@ -376,6 +379,55 @@ class FlowBoard {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    exportToCSV() {
+        if (this.boards.length === 0) {
+            alert('No data to export. Create a board first!');
+            return;
+        }
+
+        // CSV header
+        let csvContent = 'Board Name,Column Name,Task Title,Task Description,Created At\n';
+
+        // Iterate through all boards, columns, and cards
+        this.boards.forEach(board => {
+            board.columns.forEach(column => {
+                if (column.cards.length === 0) {
+                    // Include empty columns
+                    csvContent += `"${this.escapeCSV(board.name)}","${this.escapeCSV(column.name)}","","",""\n`;
+                } else {
+                    column.cards.forEach(card => {
+                        const boardName = this.escapeCSV(board.name);
+                        const columnName = this.escapeCSV(column.name);
+                        const taskTitle = this.escapeCSV(card.title);
+                        const taskDesc = this.escapeCSV(card.description || '');
+                        const createdAt = card.createdAt || '';
+                        
+                        csvContent += `"${boardName}","${columnName}","${taskTitle}","${taskDesc}","${createdAt}"\n`;
+                    });
+                }
+            });
+        });
+
+        // Create blob and download
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        
+        link.setAttribute('href', url);
+        link.setAttribute('download', `flowboard_export_${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.visibility = 'hidden';
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    escapeCSV(text) {
+        if (typeof text !== 'string') return '';
+        // Escape double quotes by doubling them
+        return text.replace(/"/g, '""');
     }
 }
 

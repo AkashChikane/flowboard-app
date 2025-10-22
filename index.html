@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FlowBoard - A beautiful Kanban board for organizing your tasks">
+    <meta name="theme-color" content="#667eea">
+    <title>FlowBoard - Kanban Task Manager</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <i class="fas fa-columns"></i> FlowBoard
+                </h1>
+                <button class="btn btn-primary" id="newBoardBtn">
+                    <i class="fas fa-plus"></i> New Board
+                </button>
+            </div>
+        </header>
+
+        <!-- Board Selector -->
+        <div class="board-selector" id="boardSelector">
+            <div class="boards-container" id="boardsContainer"></div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <div class="empty-state" id="emptyState">
+                <i class="fas fa-clipboard-list"></i>
+                <h2>Welcome to FlowBoard</h2>
+                <p>Create your first board to get started organizing your tasks</p>
+                <button class="btn btn-primary btn-large" id="emptyStateBtn">
+                    <i class="fas fa-plus"></i> Create Your First Board
+                </button>
+            </div>
+
+            <!-- Board View -->
+            <div class="board-view" id="boardView" style="display: none;">
+                <div class="board-header">
+                    <h2 class="board-title" id="boardTitle"></h2>
+                    <div class="board-actions">
+                        <button class="btn btn-secondary" id="addColumnBtn">
+                            <i class="fas fa-plus"></i> Add Column
+                        </button>
+                        <button class="btn btn-danger" id="deleteBoardBtn">
+                            <i class="fas fa-trash"></i> Delete Board
+                        </button>
+                    </div>
+                </div>
+                <div class="columns-container" id="columnsContainer"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for New Board -->
+    <div class="modal" id="newBoardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Board</h3>
+                <button class="close-btn" data-modal="newBoardModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="boardNameInput" class="input" placeholder="Enter board name..." autofocus>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-modal="newBoardModal">Cancel</button>
+                <button class="btn btn-primary" id="createBoardBtn">Create Board</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for New Column -->
+    <div class="modal" id="newColumnModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Column</h3>
+                <button class="close-btn" data-modal="newColumnModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="columnNameInput" class="input" placeholder="Enter column name..." autofocus>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-modal="newColumnModal">Cancel</button>
+                <button class="btn btn-primary" id="createColumnBtn">Add Column</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for New Card -->
+    <div class="modal" id="newCardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Task</h3>
+                <button class="close-btn" data-modal="newCardModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="cardTitleInput" class="input" placeholder="Task title..." autofocus>
+                <textarea id="cardDescInput" class="input" placeholder="Description (optional)..." rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-modal="newCardModal">Cancel</button>
+                <button class="btn btn-primary" id="createCardBtn">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sortable.js for drag and drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

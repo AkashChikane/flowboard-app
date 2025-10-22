@@ -1,17 +1,17 @@
 :root {
-    --primary: #667eea;
-    --primary-dark: #5568d3;
-    --secondary: #764ba2;
+    --primary: #dc2626;
+    --primary-dark: #b91c1c;
+    --secondary: #f87171;
     --danger: #ef4444;
     --danger-dark: #dc2626;
     --success: #10b981;
-    --background: #f8fafc;
+    --background: #fef2f2;
     --surface: #ffffff;
     --text-primary: #1e293b;
     --text-secondary: #64748b;
-    --border: #e2e8f0;
-    --shadow: rgba(0, 0, 0, 0.1);
-    --shadow-lg: rgba(0, 0, 0, 0.15);
+    --border: #fecaca;
+    --shadow: rgba(220, 38, 38, 0.1);
+    --shadow-lg: rgba(220, 38, 38, 0.2);
 }
 
 * {
@@ -22,10 +22,27 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--background);
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    background-attachment: fixed;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://picsum.photos/1920/1080?blur=2');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    opacity: 0.15;
+    z-index: -1;
 }
 
 .app-container {
@@ -36,13 +53,14 @@ body {
 
 /* Header */
 .app-header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%);
     color: white;
     padding: 1.5rem 2rem;
-    box-shadow: 0 4px 6px var(--shadow);
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
     position: sticky;
     top: 0;
     z-index: 100;
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -96,9 +114,10 @@ body {
 }
 
 .board-tab.active {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
     color: white;
     border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
 /* Main Content */
@@ -174,16 +193,24 @@ body {
 }
 
 .column {
-    background: var(--surface);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
     padding: 1.25rem;
     min-width: 300px;
     max-width: 350px;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px var(--shadow);
+    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.12);
+    border: 1px solid rgba(220, 38, 38, 0.1);
     display: flex;
     flex-direction: column;
     max-height: calc(100vh - 350px);
+    transition: all 0.3s ease;
+}
+
+.column:hover {
+    box-shadow: 0 8px 30px rgba(220, 38, 38, 0.2);
+    transform: translateY(-2px);
 }
 
 .column-header {
@@ -205,9 +232,9 @@ body {
 }
 
 .card-count {
-    background: var(--background);
-    color: var(--text-secondary);
-    padding: 0.25rem 0.5rem;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: var(--primary);
+    padding: 0.25rem 0.6rem;
     border-radius: 12px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -246,18 +273,38 @@ body {
 
 /* Cards */
 .card {
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+    border: 2px solid rgba(220, 38, 38, 0.15);
+    border-radius: 12px;
+    padding: 1.25rem;
     margin-bottom: 0.75rem;
     cursor: move;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #dc2626 0%, #f87171 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .card:hover {
-    box-shadow: 0 4px 12px var(--shadow-lg);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(220, 38, 38, 0.2);
+    transform: translateY(-4px) rotate(-1deg);
+    border-color: rgba(220, 38, 38, 0.3);
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .card.sortable-ghost {
@@ -279,15 +326,18 @@ body {
 .card-title {
     font-weight: 600;
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 1rem;
     flex: 1;
+    line-height: 1.4;
 }
 
 .card-description {
     color: var(--text-secondary);
-    font-size: 0.85rem;
-    line-height: 1.4;
-    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(220, 38, 38, 0.1);
 }
 
 .add-card-btn {
@@ -308,9 +358,10 @@ body {
 }
 
 .add-card-btn:hover {
-    background: var(--primary);
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
     color: white;
     border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
 /* Buttons */
@@ -328,13 +379,14 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
     color: white;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow-lg);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
 }
 
 .btn-secondary {
@@ -384,11 +436,12 @@ body {
 
 .modal-content {
     background: var(--surface);
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(220, 38, 38, 0.3);
     max-width: 500px;
     width: 90%;
     animation: slideUp 0.3s ease;
+    border: 1px solid rgba(220, 38, 38, 0.1);
 }
 
 @keyframes slideUp {
